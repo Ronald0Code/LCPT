@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Install cowsay and figlet if not installed
+if ! command -v cowsay &> /dev/null
+then
+    echo "Installing cowsay..."
+    sudo apt-get install cowsay -y
+fi
+
+if ! command -v figlet &> /dev/null
+then
+    echo "Installing figlet..."
+    sudo apt-get install figlet -y
+fi
+
+# Display the program purpose using cowsay
+cowsay "Welcome to the Linux System Information Practice Test"
+
+# Display the title using figlet
+figlet "System Information"
+
+# Array of questions and answers
+questions=(
+    "Display Linux system information:uname -a"
+    "Display kernel release information:uname -r"
+    "Show which version of Red Hat installed:cat /etc/redhat-release"
+    "Show which version of Ubuntu installed:lsb_release -a"
+    "Show how long the system has been running + load:uptime"
+    "Show system host name:hostname"
+    "Display all local IP addresses of the host:hostname -I"
+    "Show system reboot history:last reboot"
+    "Show the current date and time:date"
+    "Show this month's calendar:cal"
+    "Display who is online:w"
+    "Who you are logged in as:whoami"
+)
+
+# Loop through each question
+for i in "${questions[@]}"
+do
+    # Extract the question and answer
+    question="${i%%:*}"
+    answer="${i##*:}"
+
+    # Prompt the user with the question
+    echo "$question"
+    read -p "Enter the command: " user_answer
+
+    # Check if the user's answer is correct
+    if [ "$user_answer" == "$answer" ]; then
+        echo "Correct!"
+    else
+        echo "Incorrect. The correct command is: $answer"
+    fi
+done
+
+# End message
+cowsay "Thank you for taking the Linux System Information Practice Test!"
